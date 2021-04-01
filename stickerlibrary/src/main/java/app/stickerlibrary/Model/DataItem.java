@@ -36,43 +36,83 @@ public class DataItem{
 	@SerializedName("signal")
 	private String signal;
 
-	public String getStickersCount(){
+	public String getStickersCount() {
 		return stickersCount;
 	}
 
-	public String getIdentifier(){
+	public void setStickersCount(String stickersCount) {
+		this.stickersCount = stickersCount;
+	}
+
+	public String getIdentifier() {
 		return identifier;
 	}
 
-	public String getSize(){
+	public void setIdentifier(String identifier) {
+		this.identifier = identifier;
+	}
+
+	public String getSize() {
 		return size;
 	}
 
-	public String getCatImg(){
+	public void setSize(String size) {
+		this.size = size;
+	}
+
+	public String getCatImg() {
 		return catImg;
 	}
 
-	public boolean isIsNew(){
+	public void setCatImg(String catImg) {
+		this.catImg = catImg;
+	}
+
+	public boolean isNew() {
 		return isNew;
 	}
 
-	public String getName(){
+	public void setNew(boolean aNew) {
+		isNew = aNew;
+	}
+
+	public String getName() {
 		return name;
 	}
 
-	public String getTelegram(){
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getTelegram() {
 		return telegram;
 	}
 
-	public List<String> getStickers(){
+	public void setTelegram(String telegram) {
+		this.telegram = telegram;
+	}
+
+	public List<String> getStickers() {
 		return stickers;
 	}
 
-	public String getTitle(){
+	public void setStickers(List<String> stickers) {
+		this.stickers = stickers;
+	}
+
+	public String getTitle() {
 		return title;
 	}
 
-	public String getSignal(){
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getSignal() {
 		return signal;
+	}
+
+	public void setSignal(String signal) {
+		this.signal = signal;
 	}
 }

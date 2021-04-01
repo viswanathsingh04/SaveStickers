@@ -3,7 +3,7 @@
     package="app.stickerlibrary">
 
     <application>
-        <activity android:name=".SaveStickers"></activity>
+        <activity android:name=".SaveStickers"/>
     </application>
 
 </manifest>

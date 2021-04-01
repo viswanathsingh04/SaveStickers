@@ -17,7 +17,14 @@ android {
         buildFeatures {
             viewBinding true
         }
-
+        def contentProviderAuthority = applicationId + ".MyStickerMakerCombineAppContentProvider"
+        // Creates a placeholder property to use in the manifest.
+        manifestPlaceholders =
+                [contentProviderAuthority: contentProviderAuthority]
+        // Adds a new field for the authority to the BuildConfig class.
+        buildConfigField("String",
+                "CONTENT_PROVIDER_AUTHORITY",
+                "\"${contentProviderAuthority}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

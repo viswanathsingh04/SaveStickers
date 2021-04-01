@@ -5,10 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.whatsapp.stickers.Utils.GlobalFun;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import app.stickerlibrary.Utils.GlobalFun;
 
 public abstract class BaseFragment extends Fragment {
 

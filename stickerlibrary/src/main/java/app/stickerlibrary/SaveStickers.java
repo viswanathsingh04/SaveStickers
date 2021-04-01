@@ -37,7 +37,7 @@ public class SaveStickers extends BaseActivity {
 
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
         if (GlobalFun.isInternetConnected(context)) {
-            showDialog("downloading");
+            //showDialog("downloading");
             new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), (trayImageFilePath, saveImgFolder) -> {
                 try {
                     if (!TextUtils.isEmpty(trayImageFilePath)) {
@@ -53,13 +53,13 @@ public class SaveStickers extends BaseActivity {
                                 try {
                                     //show progress
                                     int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
-                                    updateProgressDialogMessage("downloading" + " : " + per + "%");
+                                    //updateProgressDialogMessage("downloading" + " : " + per + "%");
                                     if (!TextUtils.isEmpty(stickerImageFilePath)) {
                                         File stickerFile = new File(stickerImageFilePath);
                                         sp.addSticker(Uri.fromFile(stickerFile), context, pos);
                                         if (pos == downloadStickerPack.getStickers().size() - 1) {
                                             GlobalFun.deleteRecursive(saveImgFolder1);
-                                            hideDialog();
+                                            //hideDialog();
                                             addStickerPackToWhatsApp(context, downloadStickerPack);
                                         }
                                     }
@@ -79,8 +79,9 @@ public class SaveStickers extends BaseActivity {
         }
     }
 
-    private void addStickerPackToWhatsApp(Context context, DataItem sp) {
+    public void addStickerPackToWhatsApp(Context context, DataItem sp) {
         Intent intent = new Intent();
+        Log.e("status", "addstickerpack");
         intent.setAction("com.whatsapp.intent.action.ENABLE_STICKER_PACK");
         intent.putExtra(EXTRA_STICKER_PACK_ID, sp.getIdentifier());
         intent.putExtra(EXTRA_STICKER_PACK_AUTHORITY, BuildConfig.CONTENT_PROVIDER_AUTHORITY);

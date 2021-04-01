@@ -1,14 +1,5 @@
 package app.stickerlibrary;
 
-import androidx.appcompat.app.AppCompatActivity;
-import app.stickerlibrary.Base.BaseActivity;
-import app.stickerlibrary.Interface.OnImageDownloadTaskComplite;
-import app.stickerlibrary.Model.DataItem;
-import app.stickerlibrary.Model.StickerPack;
-import app.stickerlibrary.Utils.DownloadStickerPackImage;
-import app.stickerlibrary.Utils.GlobalFun;
-import app.stickerlibrary.Utils.StickerBook;
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -20,9 +11,16 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.whatsapp.stickerlib.BuildConfig;
-import com.whatsapp.stickerlib.SaveActivity;
 
 import java.io.File;
+
+import app.stickerlibrary.Base.BaseActivity;
+import app.stickerlibrary.Interface.OnImageDownloadTaskComplite;
+import app.stickerlibrary.Model.DataItem;
+import app.stickerlibrary.Model.StickerPack;
+import app.stickerlibrary.Utils.DownloadStickerPackImage;
+import app.stickerlibrary.Utils.GlobalFun;
+import app.stickerlibrary.Utils.StickerBook;
 
 public class SaveStickers extends BaseActivity {
 
@@ -39,7 +37,7 @@ public class SaveStickers extends BaseActivity {
 
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
         if (GlobalFun.isInternetConnected(context)) {
-            showDialog(getString(R.string.labal_downloading_sticker));
+            showDialog("downloading");
             new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), (trayImageFilePath, saveImgFolder) -> {
                 try {
                     if (!TextUtils.isEmpty(trayImageFilePath)) {
@@ -51,30 +49,22 @@ public class SaveStickers extends BaseActivity {
                             int pos = i;
                             //Sticker downloadSticker = downloadStickerPack.getSticker(pos);
                             String downloadSticker = downloadStickerPack.getStickers().get(pos);
-                            new DownloadStickerPackImage(context, downloadSticker, new OnImageDownloadTaskComplite() {
-                                @Override
-                                public void onFinish(String stickerImageFilePath, File saveImgFolder) {
-                                    try {
-                                        //show progress
-                                        int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
-                                        updateProgressDialogMessage(getString(R.string.labal_downloading_sticker) + " : " + per + "%");
-
-                                        if (!TextUtils.isEmpty(stickerImageFilePath)) {
-                                            File stickerFile = new File(stickerImageFilePath);
-                                            sp.addSticker(Uri.fromFile(stickerFile), context, pos);
-                                            if (pos == downloadStickerPack.getStickers().size() - 1) {
-                                                GlobalFun.deleteRecursive(saveImgFolder);
-                                                /*stickerPack = StickerBook.getStickerPackById(downloadStickerPack.identifier);
-                                                stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack, clickListener);
-                                                recyclerView.setAdapter(stickerPreviewAdapter);*/
-                                                hideDialog();
-                                                //downloadButton.setVisibility(View.GONE);
-                                                addStickerPackToWhatsApp(context, downloadStickerPack);
-                                            }
+                            new DownloadStickerPackImage(context, downloadSticker, (stickerImageFilePath, saveImgFolder1) -> {
+                                try {
+                                    //show progress
+                                    int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
+                                    updateProgressDialogMessage("downloading" + " : " + per + "%");
+                                    if (!TextUtils.isEmpty(stickerImageFilePath)) {
+                                        File stickerFile = new File(stickerImageFilePath);
+                                        sp.addSticker(Uri.fromFile(stickerFile), context, pos);
+                                        if (pos == downloadStickerPack.getStickers().size() - 1) {
+                                            GlobalFun.deleteRecursive(saveImgFolder1);
+                                            hideDialog();
+                                            addStickerPackToWhatsApp(context, downloadStickerPack);
                                         }
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
                                     }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
                             }).execute();
                         }
@@ -98,7 +88,7 @@ public class SaveStickers extends BaseActivity {
         try {
             startActivityForResult(intent, 200);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(context, "R.string.error_adding_sticker_pack", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "error_adding_sticker_pack", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -113,7 +103,7 @@ public class SaveStickers extends BaseActivity {
                 final String validationError = data.getStringExtra("validation_error");
                 if (validationError != null) {
                     if (BuildConfig.DEBUG) {
-                        MessageDialogFragment.newInstance(R.string.title_validation_error, validationError).show(getSupportFragmentManager(), "validation error");
+                        MessageDialogFragment.newInstance("Error with the pack", validationError).show(getSupportFragmentManager(), "validation error");
                     }
                     Log.e(TAG, "Validation failed:" + validationError);
                 }

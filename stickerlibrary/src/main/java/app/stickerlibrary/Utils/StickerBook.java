@@ -1,6 +1,7 @@
 package app.stickerlibrary.Utils;
 
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.Log;
 
@@ -10,9 +11,9 @@ import app.stickerlibrary.Model.StickerPack;
 import java.io.File;
 import java.util.ArrayList;
 
-
 public class StickerBook {
 
+    @SuppressLint("StaticFieldLeak")
     static Context myContext;
     public static ArrayList<StickerPack> allStickerPacks = checkIfPacksAreNull();
 

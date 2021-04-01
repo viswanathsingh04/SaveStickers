@@ -1,5 +1,6 @@
 package app.stickerlibrary.Utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -15,10 +16,11 @@ import java.net.URLConnection;
 import java.util.Random;
 
 public class DownloadStickerPackImage extends AsyncTask<Void, Void, String> {
-    Context context;
-    String stickerUrl;
+    @SuppressLint("StaticFieldLeak")
+    public Context context;
+    public String stickerUrl;
     OnImageDownloadTaskComplite onImageDownloadTaskComplite;
-    File saveImgFolder;
+    public File saveImgFolder;
 
     public DownloadStickerPackImage(Context context, String stickerUrl, OnImageDownloadTaskComplite onImageDownloadTaskComplite) {
         this.context = context;

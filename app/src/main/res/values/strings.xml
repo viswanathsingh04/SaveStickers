@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">stickerlib</string>
+    <string name="labal_downloading_sticker">downloading…</string>
+    <string name="title_validation_error">Error with the pack</string>
+</resources>

@@ -38,40 +38,51 @@ public class SaveStickers extends BaseActivity {
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
         if (GlobalFun.isInternetConnected(context)) {
             //showDialog("downloading");
-            new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), (trayImageFilePath, saveImgFolder) -> {
-                try {
-                    if (!TextUtils.isEmpty(trayImageFilePath)) {
-                        File stickerPackTrayIconFile = new File(trayImageFilePath);
-                        StickerPack sp = new StickerPack(downloadStickerPack.getIdentifier(), downloadStickerPack.getName(), downloadStickerPack.getName(), Uri.fromFile(stickerPackTrayIconFile), "", "", "", "", context, true);
-                        StickerBook.addStickerPackExisting(sp);
+            new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), new OnImageDownloadTaskComplite() {
+                @Override
+                public void onFinish(String trayImageFilePath, File saveImgFolder) {
+                    try {
+                        if (!TextUtils.isEmpty(trayImageFilePath)) {
+                            File stickerPackTrayIconFile = new File(trayImageFilePath);
+                            StickerPack sp = new StickerPack(downloadStickerPack.getIdentifier(), downloadStickerPack.getName(), downloadStickerPack.getName(), Uri.fromFile(stickerPackTrayIconFile), "", "", "", "", context, true);
+                            StickerBook.addStickerPackExisting(sp);
 
-                        for (int i = 0; i < downloadStickerPack.getStickers().size(); i++) {
-                            int pos = i;
-                            //Sticker downloadSticker = downloadStickerPack.getSticker(pos);
-                            String downloadSticker = downloadStickerPack.getStickers().get(pos);
-                            new DownloadStickerPackImage(context, downloadSticker, (stickerImageFilePath, saveImgFolder1) -> {
-                                try {
-                                    //show progress
-                                    int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
-                                    //updateProgressDialogMessage("downloading" + " : " + per + "%");
-                                    if (!TextUtils.isEmpty(stickerImageFilePath)) {
-                                        File stickerFile = new File(stickerImageFilePath);
-                                        sp.addSticker(Uri.fromFile(stickerFile), context, pos);
-                                        if (pos == downloadStickerPack.getStickers().size() - 1) {
-                                            GlobalFun.deleteRecursive(saveImgFolder1);
-                                            //hideDialog();
-                                            addStickerPackToWhatsApp(context, downloadStickerPack);
+                            for (int i = 0; i < downloadStickerPack.getStickers().size(); i++) {
+                                int pos = i;
+                                //Sticker downloadSticker = downloadStickerPack.getSticker(pos);
+                                String downloadSticker = downloadStickerPack.getStickers().get(pos);
+                                new DownloadStickerPackImage(context, downloadSticker, new OnImageDownloadTaskComplite() {
+                                    @Override
+                                    public void onFinish(String stickerImageFilePath, File saveImgFolder) {
+                                        try {
+                                            //show progress
+                                            int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
+                                            //updateProgressDialogMessage(getString(R.string.labal_downloading_sticker) + " : " + per + "%");
+
+                                            if (!TextUtils.isEmpty(stickerImageFilePath)) {
+                                                File stickerFile = new File(stickerImageFilePath);
+                                                sp.addSticker(Uri.fromFile(stickerFile), context, pos);
+                                                if (pos == downloadStickerPack.getStickers().size() - 1) {
+                                                    GlobalFun.deleteRecursive(saveImgFolder);
+                                                    /*stickerPack = StickerBook.getStickerPackById(downloadStickerPack.identifier);
+                                                    stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack, clickListener);
+                                                    recyclerView.setAdapter(stickerPreviewAdapter);*/
+                                                    //hideDialog();
+                                                    //downloadButton.setVisibility(View.GONE);
+                                                    addStickerPackToWhatsApp(context, downloadStickerPack);
+                                                }
+                                            }
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
                                         }
                                     }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }).execute();
+                                }).execute();
+                            }
+                            invalidateOptionsMenu();
                         }
-                        invalidateOptionsMenu();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }).execute();
         } else {

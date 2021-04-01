@@ -38,7 +38,7 @@ public class SaveStickers extends BaseActivity {
     }
 
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
-        if (GlobalFun.isInternetConnected(this)) {
+        if (GlobalFun.isInternetConnected(context)) {
             showDialog(getString(R.string.labal_downloading_sticker));
             new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), (trayImageFilePath, saveImgFolder) -> {
                 try {
@@ -85,7 +85,7 @@ public class SaveStickers extends BaseActivity {
                 }
             }).execute();
         } else {
-            GlobalFun.internetFailedDialog(this);
+            GlobalFun.internetFailedDialog(context);
         }
     }
 

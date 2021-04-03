@@ -70,7 +70,7 @@ public class SaveStickers extends BaseActivity {
                                                     recyclerView.setAdapter(stickerPreviewAdapter);*/
                                                     //hideDialog();
                                                     //downloadButton.setVisibility(View.GONE);
-                                                    addStickerPackToWhatsApp(context, downloadStickerPack);
+                                                    //addStickerPackToWhatsApp(context, downloadStickerPack);
                                                 }
                                             }
                                         } catch (Exception e) {

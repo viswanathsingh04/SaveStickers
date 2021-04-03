@@ -2,6 +2,7 @@ package app.stickerlibrary.Base;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 
@@ -66,9 +67,9 @@ public abstract class BaseActivity extends AppCompatActivity {
                 .create(ApiService.class);
     }*/
 
-    protected void showDialog(String message) {
+    protected void showDialog(Context context, String message) {
         if (!isShowingProgressDialog()) {
-            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog = new ProgressDialog(context);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setCancelable(true);
             mProgressDialog.setCanceledOnTouchOutside(false);

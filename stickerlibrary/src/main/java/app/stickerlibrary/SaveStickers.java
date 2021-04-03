@@ -37,7 +37,7 @@ public class SaveStickers extends BaseActivity {
 
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
         if (GlobalFun.isInternetConnected(context)) {
-            //showDialog("downloading");
+            showDialog(context, "downloading");
             new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), new OnImageDownloadTaskComplite() {
                 @Override
                 public void onFinish(String trayImageFilePath, File saveImgFolder) {
@@ -57,6 +57,7 @@ public class SaveStickers extends BaseActivity {
                                         try {
                                             //show progress
                                             int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
+                                            updateProgressDialogMessage("downloading…" + " : " + per + "%");
                                             //updateProgressDialogMessage(getString(R.string.labal_downloading_sticker) + " : " + per + "%");
 
                                             if (!TextUtils.isEmpty(stickerImageFilePath)) {
@@ -98,7 +99,7 @@ public class SaveStickers extends BaseActivity {
         intent.putExtra(EXTRA_STICKER_PACK_AUTHORITY, BuildConfig.CONTENT_PROVIDER_AUTHORITY);
         intent.putExtra(EXTRA_STICKER_PACK_NAME, sp.getName());
         try {
-            startActivityForResult(intent, 200);
+            this.startActivityForResult(intent, 200);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(context, "error_adding_sticker_pack", Toast.LENGTH_LONG).show();
         }

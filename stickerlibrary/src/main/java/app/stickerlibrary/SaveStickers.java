@@ -37,7 +37,7 @@ public class SaveStickers extends BaseActivity {
 
     public void startDownloadStickerImages(Context context, DataItem downloadStickerPack) {
         if (GlobalFun.isInternetConnected(context)) {
-            showDialog(context, "downloading");
+            //showDialog(context, "downloading");
             new DownloadStickerPackImage(context, downloadStickerPack.getCatImg(), new OnImageDownloadTaskComplite() {
                 @Override
                 public void onFinish(String trayImageFilePath, File saveImgFolder) {
@@ -57,7 +57,7 @@ public class SaveStickers extends BaseActivity {
                                         try {
                                             //show progress
                                             int per = (100 * (pos + 1)) / (downloadStickerPack.getStickers().size() - 1);
-                                            updateProgressDialogMessage("downloading…" + " : " + per + "%");
+                                            //updateProgressDialogMessage("downloading…" + " : " + per + "%");
                                             //updateProgressDialogMessage(getString(R.string.labal_downloading_sticker) + " : " + per + "%");
 
                                             if (!TextUtils.isEmpty(stickerImageFilePath)) {
